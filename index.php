@@ -36,20 +36,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
+
 <body>
-    <h2>Iniciar Sesión </h2>
+    <h2>Iniciar Sesión</h2>
 
     <?php if (!empty($error)):?>
-        <p style="color: red"> <?= $error ?></p>
+        <p style="color:red"> <?=$error ?></p>
     <?php endif ?>
 
     <form action="index.php" method="POST">
-        <label>Correo electrónico: </label><br>
+        <label>Correo electrónico: </label>
         <input type="email" name="email" required><br><br>
 
         <label>Constraseña</label>
