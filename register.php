@@ -18,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirmPassword = $_POST['confirm_password'] ?? '';
     $about = $_POST['about'] ?? '';
 
-    // Validaciones básicas
     if (empty($email) || empty($firstName) || empty($lastName) || empty($birthDate) || empty($password) || empty($confirmPassword)) {
         $error = "Por favor, rellena todos los campos obligatorios.";
     } elseif ($password !== $confirmPassword) {
@@ -49,10 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Registro</title>
+    <title>Register</title>
 </head>
+
 <body>
     <h2>Registro de nuevo usuario</h2>
 
@@ -63,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php if (!empty($success)): ?>
         <p style="color: green;"><?= $success ?></p>
     <?php else: ?>
+        
         <form action="register.php" method="POST">
             <label>Correo electrónico:</label><br>
             <input type="email" name="email" required><br><br>
