@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Cierre de sesión
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
@@ -9,7 +8,6 @@ if (isset($_GET['logout'])) {
     exit();
 }
 
-// Control de acceso
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit();
@@ -21,19 +19,19 @@ require_once __DIR__ . '/entities/Event.php';
 $dbFile = __DIR__ . '/calendar.db';
 $dao = new CalendarDataAccess($dbFile);
 
-// Obtener los eventos del usuario actual
 $events = $dao->getEventsByUserId($_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Mis Eventos</title>
 </head>
+
 <body>
     <h1>Tus Eventos Guardados</h1>
 
-    <!-- Opciones de navegación y cierre de sesión -->
     <p>
         <a href="newEvents.php">Crear nuevo evento</a> | 
         <a href="events.php?logout=true">Cerrar sesión</a>
@@ -55,5 +53,6 @@ $events = $dao->getEventsByUserId($_SESSION['user_id']);
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
+    
 </body>
 </html>
