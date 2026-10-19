@@ -1,9 +1,8 @@
 <?php
 session_start();
 
-// Si ya hay sesión iniciada, redirige directamente a la creación de eventos
 if (isset($_SESSION['user_id'])){
-    header("Location: newEvents.php");
+    header("Location: events.php");
     exit();
 }
 
@@ -15,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     if (empty($email) || empty($password)){
         $error = "Por favor, rellena todos los campos.";
-    }else {
+    } else {
         require_once __DIR__ . '/data-access/CalendarDataAccess.php';
         $dbFile = __DIR__ . '/calendar.db';
         $dao = new CalendarDataAccess($dbFile);
@@ -26,10 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_SESSION['user_id'] = $user->getId();
             session_regenerate_id(true);
 
-            // Redirige directamente a newEvents.php tras hacer login con éxito
-            header("Location: newEvents.php");
+            header("Location: events.php");
             exit();
-        }else{
+        } else {
             $error = "Correo o contraseña incorrectos";
         }
     }
@@ -56,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         <label>Correo electrónico: </label>
         <input type="email" name="email" required><br><br>
 
-        <label>Contraseña</label>
+        <label>Constraseña: </label>
         <input type="password" name="password" required><br><br>
 
         <button type="submit">Entrar</button>
