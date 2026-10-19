@@ -1,8 +1,9 @@
 <?php
 session_start();
 
+// Si ya hay sesión iniciada, redirige directamente a la creación de eventos
 if (isset($_SESSION['user_id'])){
-    header("Location: events.php");
+    header("Location: newEvents.php");
     exit();
 }
 
@@ -25,7 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             $_SESSION['user_id'] = $user->getId();
             session_regenerate_id(true);
 
-            header("Location: events.php");
+            // Redirige directamente a newEvents.php tras hacer login con éxito
+            header("Location: newEvents.php");
             exit();
         }else{
             $error = "Correo o contraseña incorrectos";
@@ -54,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         <label>Correo electrónico: </label>
         <input type="email" name="email" required><br><br>
 
-        <label>Constraseña</label>
+        <label>Contraseña</label>
         <input type="password" name="password" required><br><br>
 
         <button type="submit">Entrar</button>
