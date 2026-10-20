@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="col-md-6">
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
-                        <h3 class="card-title text-center mb-4"><i class="fa-solid fa-user-plus me-2 text-primary"></i>Registro</h3>
+                        <h3 class="card-title text-center mb-4">Registro</h3>
 
                         <?php if (!empty($error)): ?>
                             <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
@@ -123,7 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
