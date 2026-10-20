@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $dao = new CalendarDataAccess($dbFile);
 
         if ($dao->getUserByEmail($email)) {
-            $error = "Ya existe un usuario registrado con ese correo electrónico.";
+            $error = "Ya existe un usuario registrado con ese correo electrónico. Por favor inicia sesión";
         } else {
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
             
@@ -51,47 +51,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Agenda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body>
-    <h2>Registro de nuevo usuario</h2>
+<body class="bg-light">
 
-    <?php if (!empty($error)): ?>
-        <p style="color: red;"><?= $error ?></p>
-    <?php endif; ?>
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <h3 class="card-title text-center mb-4"><i class="fa-solid fa-user-plus me-2 text-primary"></i>Registro</h3>
 
-    <?php if (!empty($success)): ?>
-        <p style="color: green;"><?= $success ?></p>
-    <?php else: ?>
-        
-        <form action="register.php" method="POST">
-            <label>Correo electrónico:</label><br>
-            <input type="email" name="email" required><br><br>
+                        <?php if (!empty($error)): ?>
+                            <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+                        <?php endif; ?>
 
-            <label>Nombre:</label><br>
-            <input type="text" name="first_name" required><br><br>
+                        <?php if (!empty($success)): ?>
+                            <div class="alert alert-success"><?= $success ?></div>
+                        <?php else: ?>
+                            <form action="register.php" method="POST">
+                                <div class="mb-3">
+                                    <label class="form-label">Correo electrónico *</label>
+                                    <input type="email" class="form-control" name="email" required>
+                                </div>
 
-            <label>Apellidos:</label><br>
-            <input type="text" name="last_name" required><br><br>
+                                <div class="row mb-3">
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <label class="form-label">Nombre *</label>
+                                        <input type="text" class="form-control" name="first_name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Apellidos *</label>
+                                        <input type="text" class="form-control" name="last_name" required>
+                                    </div>
+                                </div>
 
-            <label>Fecha de nacimiento:</label><br>
-            <input type="date" name="birth_date" required><br><br>
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha de nacimiento *</label>
+                                    <input type="date" class="form-control" name="birth_date" required>
+                                </div>
 
-            <label>Contraseña (mín. 8 caracteres, letras y números):</label><br>
-            <input type="password" name="password" required><br><br>
+                                <div class="mb-3">
+                                    <label class="form-label">Contraseña (mín. 8 caracteres, letras y números) *</label>
+                                    <input type="password" class="form-control" name="password" required>
+                                </div>
 
-            <label>Repetir contraseña:</label><br>
-            <input type="password" name="confirm_password" required><br><br>
+                                <div class="mb-3">
+                                    <label class="form-label">Repetir contraseña *</label>
+                                    <input type="password" class="form-control" name="confirm_password" required>
+                                </div>
 
-            <label>Acerca de mí:</label><br>
-            <textarea name="about"></textarea><br><br>
+                                <div class="mb-3">
+                                    <label class="form-label">Acerca de mí</label>
+                                    <textarea class="form-control" name="about" rows="2"></textarea>
+                                </div>
 
-            <button type="submit">Registrarse</button>
-        </form>
+                                <button type="submit" class="btn btn-primary w-100 mb-3">Registrarse</button>
+                            </form>
 
-        <p>¿Ya tienes cuenta? <a href="index.php">Inicia sesión</a></p>
-    <?php endif; ?>
+                            <div class="text-center">
+                                <p class="mb-0">¿Ya tienes cuenta? <a href="index.php">Inicia sesión</a></p>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

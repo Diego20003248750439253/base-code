@@ -26,33 +26,84 @@ $events = $dao->getEventsByUserId($_SESSION['user_id']);
 
 <head>
     <meta charset="UTF-8">
-    <title>Mis Eventos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Eventos - Agenda</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body>
-    <h1>Tus Eventos Guardados</h1>
+<body class="bg-light">
 
-    <p>
-        <a href="newEvents.php">Crear nuevo evento</a> | 
-        <a href="events.php?logout=true">Cerrar sesión</a>
-    </p>
-
-    <hr>
-
-    <?php if (empty($events)): ?>
-        <p>No tienes ningún evento registrado todavía.</p>
-    <?php else: ?>
-        <ul>
-            <?php foreach ($events as $event): ?>
-                <li>
-                    <strong><?= htmlspecialchars($event->getTitle()) ?></strong><br>
-                    <span><?= htmlspecialchars($event->getDescription()) ?></span><br>
-                    <small>Desde: <?= htmlspecialchars($event->getStartDate()) ?> | Hasta: <?= htmlspecialchars($event->getEndDate()) ?></small>
-                </li>
-                <br>
-            <?php endforeach; ?>
-        </ul>
-    <?php endif; ?>
     
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4 shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="events.php">
+                <i class="fa-regular fa-calendar-days me-2"></i>Mi Agenda
+            </a>
+            <div>
+                <a href="newEvents.php" class="btn btn-light btn-sm me-2">Nuevo Evento</a>
+                <a href="events.php?logout=true" class="btn btn-outline-light btn-sm">Cerrar sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h3 text-dark mb-0">Tus Eventos Guardados</h2>
+        </div>
+
+        <?php if (empty($events)): ?>
+            <div class="alert alert-info text-center shadow-sm" role="alert">
+                No tienes ningún evento registrado todavía.
+            </div>
+        <?php else: ?>
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Descripción</th>
+                                    <th>Inicio</th>
+                                    <th>Fin</th>
+                                    <th class="text-end">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                $totalEvents = count($events);
+                                for ($i = 0; $i < $totalEvents; $i++): 
+                                    $event = $events[$i];
+                                ?>
+                                    <tr>
+                                        <td class="fw-bold"><?= htmlspecialchars($event->getTitle()) ?></td>
+                                        <td class="text-muted"><?= htmlspecialchars($event->getDescription()) ?></td>
+                                        <td><span class="badge bg-light text-dark border"><?= htmlspecialchars($event->getStartDate()) ?></span></td>
+                                        <td><span class="badge bg-light text-dark border"><?= htmlspecialchars($event->getEndDate()) ?></span></td>
+                                        <td class="text-end">
+                                            <a href="edit-event.php?id=<?= $event->getId() ?>" class="btn btn-outline-primary btn-sm me-1" title="Editar">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            <a href="delete-event.php?id=<?= $event->getId() ?>" class="btn btn-outline-danger btn-sm" title="Borrar">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endfor; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
