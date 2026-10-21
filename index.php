@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_SESSION['user_id'])){
-    header("Location: newEvents.php");
+    header("Location: events.php");
     exit();
 }
 
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 setcookie('remember_email', '', time() - 3600, "/");
             }
 
-            header("Location: newEvents.php");
+            header("Location: events.php");
             exit();
         } else {
             $error = "Correo o contraseña incorrectos.";
