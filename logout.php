@@ -1,3 +1,25 @@
+<?php 
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['confirm']) && $_POST['confirm'] === 'yes') {
+    session_unset();
+    session_destroy();
+
+    header("Location: index.php");
+    exit();
+    } else {
+        header("Location: events.php");
+        exit();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
