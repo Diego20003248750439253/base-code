@@ -17,6 +17,16 @@ require_once __DIR__ . '/entities/Event.php';
 $dbFile = __DIR__ . '/calendar.db';
 $dao = new CalendarDataAccess($dbFile);
 
+$userId = $_SESSION['user_id'];
+$user = $dao->getUserById($userId);
+
+if (!$user) {
+    session_unset();
+    session_destroy();
+    header("Location: index.php");
+    exit();
+}
+
 $events = $dao->getEventsByUserId($_SESSION['user_id']);
 ?>
 
@@ -39,7 +49,8 @@ $events = $dao->getEventsByUserId($_SESSION['user_id']);
             <a class="navbar-brand fw-bold" href="events.php">Mi Agenda</a>
             <div>
                 <a href="new-event.php" class="btn btn-light btn-sm me-2">Nuevo Evento</a>
-                <a href="events.php?logout=true" class="btn btn-outline-light btn-sm">Cerrar sesión</a>
+                <a href="profile.php" class="btn btn-outline-light btn-sm me-2">Mi Perfil</a>
+                <a href="events.php?logout=true" class="btn btn-outline-danger btn-sm text-white border-danger">Cerrar sesión</a>
             </div>
         </div>
     </nav>

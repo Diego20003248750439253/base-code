@@ -13,6 +13,22 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+require_once __DIR__ . '/data-access/CalendarDataAccess.php';
+require_once __DIR__ . '/entities/Event.php';
+
+$dbFile = __DIR__ . '/calendar.db';
+$dao = new CalendarDataAccess($dbFile);
+
+$userId = $_SESSION['user_id'];
+$user = $dao->getUserById($userId);
+
+if (!$user) {
+    session_unset();
+    session_destroy();
+    header("Location: index.php");
+    exit();
+}
+
 $error = "";
 $success = "";
 
@@ -29,12 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_event'])) {
     if (empty($title) || empty($startDate) || empty($endDate)) {
         $error = "Por favor, rellena los campos obligatorios.";
     } else {
-        require_once __DIR__ . '/data-access/CalendarDataAccess.php';
-        require_once __DIR__ . '/entities/Event.php';
-
-        $dbFile = __DIR__ . '/calendar.db';
-        $dao = new CalendarDataAccess($dbFile);
-
         $newEvent = new Event($_SESSION['user_id'], $title, $description, $startDate, $endDate);
 
         if ($dao->createEvent($newEvent)) {
@@ -62,8 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_event'])) {
         <div class="container">
             <a class="navbar-brand fw-bold" href="events.php">Mi Agenda</a>
             <div>
-                <a href="events.php" class="btn btn-light btn-sm me-2">Mis Eventos</a>
-                <a href="new-event.php?logout=true" class="btn btn-outline-light btn-sm">Cerrar sesión</a>
+                <a href="new-event.php" class="btn btn-light btn-sm me-2">Nuevo Evento</a>
+                <a href="profile.php" class="btn btn-outline-light btn-sm me-2">Mi Perfil</a>
+                <a href="events.php?logout=true" class="btn btn-outline-danger btn-sm text-white border-danger">Cerrar sesión</a>
             </div>
         </div>
     </nav>
@@ -107,8 +118,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_event'])) {
                             </div>
 
                             <div class="d-flex justify-content-between">
-                                <a href="events.php" class="btn btn-outline-secondary">Cancelar</a>
                                 <button type="submit" name="create_event" class="btn btn-primary"><i class="fa-solid fa-floppy-disk me-1"></i>Guardar</button>
+                                <a href="events.php" class="btn btn-secondary">Cancelar</a>
                             </div>
                         </form>
                     </div>
@@ -119,3 +130,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_event'])) {
 
 </body>
 </html>
+

@@ -12,8 +12,17 @@ require_once __DIR__ . '/entities/Event.php';
 $dbFile = __DIR__ . '/calendar.db';
 $dao = new CalendarDataAccess($dbFile);
 
-$eventId = $_GET['id'] ?? null;
 $userId = $_SESSION['user_id'];
+$user = $dao->getUserById($userId);
+
+if (!$user) {
+    session_unset();
+    session_destroy();
+    header("Location: index.php");
+    exit();
+}
+
+$eventId = $_GET['id'] ?? null;
 $error = '';
 $event = null;
 $hasAccess = true;
